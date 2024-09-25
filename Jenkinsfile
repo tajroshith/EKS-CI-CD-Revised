@@ -72,7 +72,7 @@ stages{
               input message: 'Delete the resources?',
               parameters: [text(defaultValue: plan, description: 'Please review the plan', name: 'Plan')] 
             }
-            sh "terraform destroy -no-color -input=false tfplan"
+            sh "terraform destroy -no-color -input=false --auto-approve"
         }
      }
    }
