@@ -42,6 +42,7 @@ stages{
                     def plan = readFile 'tfplan.txt'
                     input message: "Apply the plan?",
                     parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
+                   }
     }
     stage('apply'){
         when {
