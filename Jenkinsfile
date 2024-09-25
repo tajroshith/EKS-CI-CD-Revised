@@ -40,7 +40,7 @@ stages{
            sh "terraform show -no-color tfplan > tfplan.txt"
            script { 
                     def plan = readFile "tfplan.txt"               
-                    input message: 'Apply the plan?' 
+                    input message: 'Apply the plan?',
                     parameters: [text(defaultValue: plan, description: 'Please review the plan', name: 'Plan')] 
                     }
                 }
@@ -69,7 +69,7 @@ stages{
         steps{
             script {
               def plan = readFile "tfplan.txt"
-              input message: 'Delete the resources?'
+              input message: 'Delete the resources?',
               parameters: [text(defaultValue: plan, description: 'Please review the plan', name: 'Plan')] 
             }
             sh "terraform destroy -no-color -input=false tfplan"
