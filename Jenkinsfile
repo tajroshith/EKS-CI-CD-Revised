@@ -39,8 +39,8 @@ stages{
         steps{
            sh "terraform show -no-color tfplan > tfplan.txt"
            script {  // just enclose the input block in the script block.
+	        def plan = readFile "tfplan.txt"
                 input {  // you can generate the input message using declarative snippet generator in jenkins. Give input message as "Apply the plan?" and use multi string parameter to fill in the rest.
-                    def plan = readFile "tfplan.txt"
                     message 'Apply the plan?'
                     parameters {
                     text(defaultValue: 'plan', description: 'Please review the plan', name: 'plan')  // put brackets after text:- text(.....)
