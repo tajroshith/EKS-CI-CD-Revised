@@ -10,7 +10,7 @@ parameters {
 stages{
     stage('init'){
         steps{
-           sh "rm -rf .terraform" // Removes modules, settings, lockfile from previous runs.
+           sh "rm -rf .terraform" 
            sh 'terraform init -no-color -backend-config="${ENVIRONMENT}/${ENVIRONMENT}.tfbackend"'
         }
     }
@@ -38,13 +38,13 @@ stages{
         }
         steps{
            sh "terraform show -no-color tfplan > tfplan.txt"
-           script {  // just enclose the input block in the script block.
-                    def plan = readFile 'tfplan.txt'
-                    input message: "Apply the plan?",
-                    parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
-                   }
-    }
-    }
+           script { 
+                    def plan = readFile "tfplan.txt"               
+                    input message: 'Apply the plan?' 
+                    parameters: [text(defaultValue: plan, description: 'Please review the plan', name: 'Plan')] 
+                    }
+                }
+            }
     stage('apply'){
         when {
             expression { params.action == "apply" }
@@ -68,16 +68,12 @@ stages{
         }
         steps{
             script {
-                input {
-                def plan = readFile "tfplan.txt"
-                message 'Delete the resources?'
-                parameters {
-                text(defaultValue: 'plan', description: 'Please review the plan', name: 'plan')
-                }
-              }
+              def plan = readFile "tfplan.txt"
+              input message: 'Delete the resources?'
+              parameters: [text(defaultValue: plan, description: 'Please review the plan', name: 'Plan')] 
             }
             sh "terraform destroy -no-color -input=false tfplan"
         }
-    }
-}
+     }
+   }
 }
