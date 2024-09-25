@@ -44,6 +44,7 @@ stages{
                     parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
                    }
     }
+    }
     stage('apply'){
         when {
             expression { params.action == "apply" }
