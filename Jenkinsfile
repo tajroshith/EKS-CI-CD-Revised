@@ -11,7 +11,7 @@ stages{
     stage('init'){
         steps{
            sh "rm -rf .terraform" // Removes modules, settings, lockfile from previous runs.
-           sh "terraform init -no-color -backend-config='${ENVIRONMENT}/${$ENVIRONMENT}.tfbackend'"
+           sh 'terraform init -no-color -backend-config="${ENVIRONMENT}/${$ENVIRONMENT}.tfbackend"'
         }
     }
     stage('format'){
@@ -29,7 +29,7 @@ stages{
             expression { params.action == "plan" || params.action == "apply" }
         }
         steps{
-           sh "terraform plan -no-color -input=false -out=tfplan -var-file='${ENVIRONMENT}/${ENVIRONMENT}.tfvars'"
+           sh 'terraform plan -no-color -input=false -out=tfplan -var-file="${ENVIRONMENT}/${ENVIRONMENT}.tfvars"'
         }
     }
     stage('approval'){
@@ -62,7 +62,7 @@ stages{
             expression { params.action == "destroy"}
         }
         steps{
-            sh "terraform plan -no-color -input=false -destroy -out=tfplan -var-file='${ENVIRONMENT}/${ENVIRONMENT}.tfvars'"
+            sh 'terraform plan -no-color -input=false -destroy -out=tfplan -var-file="${ENVIRONMENT}/${ENVIRONMENT}.tfvars"'
             sh "terraform show -no-color tfplan > tfplan.txt"
         }
     }
@@ -83,5 +83,5 @@ stages{
             sh "terraform destroy -no-color -input=false tfplan"
         }
     }
-  }
+}
 }
