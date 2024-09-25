@@ -11,7 +11,7 @@ stages{
     stage('init'){
         steps{
            sh "rm -rf .terraform" // Removes modules, settings, lockfile from previous runs.
-           sh 'terraform init -no-color -backend-config="${ENVIRONMENT}/${$ENVIRONMENT}.tfbackend"'
+           sh 'terraform init -no-color -backend-config="${ENVIRONMENT}/${ENVIRONMENT}.tfbackend"'
         }
     }
     stage('format'){
